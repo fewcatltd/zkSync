@@ -50,6 +50,14 @@ def withdraw_eth_to_address(api_key, secret_key, to_address, amount):
         print(msg)
         logging.error(msg)
 
+def get_float_input(prompt):
+    while True:
+        try:
+            value = input(prompt).replace(',', '.')
+            return float(value)
+        except ValueError:
+            print("Некорректный ввод. Пожалуйста, введите число.")
+
 if __name__ == "__main__":
     setup_logging()
 
@@ -61,10 +69,10 @@ if __name__ == "__main__":
     same_amount = input("Вывести на все адреса одинаковое количество эфира? (да/нет): ").lower() == "да"
 
     if same_amount:
-        eth_amount = float(input("Укажите количество эфира для всех адресов: "))
+        eth_amount = get_float_input("Укажите количество эфира для всех адресов: ")
     else:
-        min_amount = float(input("Укажите минимальное количество эфира для вывода: "))
-        max_amount = float(input("Укажите максимальное количество эфира для вывода: "))
+        min_amount = get_float_input("Укажите минимальное количество эфира для вывода: ")
+        max_amount = get_float_input("Укажите максимальное количество эфира для вывода: ")
         round_digits = int(input("До скольки знаков после запятой округлять количество эфира: "))
 
     binance_api_key, binance_secret_key = get_binance_api_keys()
@@ -78,6 +86,6 @@ if __name__ == "__main__":
         try:
             withdraw_eth_to_address(binance_api_key, binance_secret_key, address, eth_amount)
         except Exception as e:
-            msg = f"Ошибка при выводе эфира на адрес {address}. Причина: {str(e)}"
+            msg = f"Ошибка при обработке адреса {address}. Причина: {str(e)}"
             print(msg)
             logging.error(msg)
