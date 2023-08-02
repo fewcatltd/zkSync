@@ -1,20 +1,19 @@
 from eth_account import Account
 
-def generate_ethereum_private_keys(num_addresses, mnemonic):
+def generate_ethereum_addresses(num_addresses, mnemonic):
     Account.enable_unaudited_hdwallet_features()
     words = mnemonic.strip().split()
     if len(words) != 12:
         raise ValueError("Мнемоника должна состоять из 12 слов.")
 
     passphrase = input("Введите пароль: ")
-    private_keys = []
+    addresses = []
 
     for i in range(num_addresses):
         account = Account.from_mnemonic(mnemonic, passphrase, account_path=f"m/44'/60'/0'/0/{i}")
-        private_key = account.key
-        private_keys.append(private_key.hex())
+        addresses.append(account.address)
 
-    return private_keys
+    return addresses
 
 if __name__ == "__main__":
     try:
@@ -24,7 +23,7 @@ if __name__ == "__main__":
             exit(1)
 
         mnemonic = input("Введите мнемонику (12 слов): ")
-        private_keys = generate_ethereum_private_keys(num_addresses, mnemonic)
+        private_keys = generate_ethereum_addresses(num_addresses, mnemonic)
 
         print("\nПриватные ключи:")
         for idx, key in enumerate(private_keys, start=1):

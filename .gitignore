@@ -3,3 +3,4 @@
 
 # За исключением файла requirements.txt
 !requirements.txt
+private_key.txt
