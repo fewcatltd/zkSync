@@ -1,1 +1,5 @@
-private_key.txt
+# Игнорировать все файлы с расширением .txt
+*.txt
+
+# За исключением файла requirements.txt
+!requirements.txt
