@@ -23,12 +23,12 @@ def generate_random_eth_amount(min_amount, max_amount, round_digits):
     random_amount = random.uniform(min_amount, max_amount)
     return round(random_amount, round_digits)
 
-def withdraw_eth_to_address(api_key, secret_key, to_address, amount):
+def withdraw_eth_to_address(api_key, secret_key, to_address, amount, network):
     endpoint = "https://api.binance.com/sapi/v1/capital/withdraw/apply"
     params = {
         "coin": "ETH",
         "withdrawOrderId": int(time.time() * 1000),
-        "network": "ETH",
+        "network": network,
         "address": to_address,
         "amount": amount,
         "timestamp": int(time.time() * 1000)
@@ -75,6 +75,15 @@ if __name__ == "__main__":
         max_amount = get_float_input("Укажите максимальное количество эфира для вывода: ")
         round_digits = int(input("До скольки знаков после запятой округлять количество эфира: "))
 
+    network = input("Выберите сеть для отправки ETH (1 - ARBITRUM, 2 - OPTIMISM): ")
+    if network == "1":
+        network = "ARBITRUM"
+    elif network == "2":
+        network = "OPTIMISM"
+    else:
+        print("Некорректный выбор сети. Пожалуйста, выберите 1 или 2.")
+        exit(1)
+
     binance_api_key, binance_secret_key = get_binance_api_keys()
 
     for address in private_keys[:num_addresses]:
@@ -84,7 +93,7 @@ if __name__ == "__main__":
             eth_amount = generate_random_eth_amount(min_amount, max_amount, round_digits)
 
         try:
-            withdraw_eth_to_address(binance_api_key, binance_secret_key, address, eth_amount)
+            withdraw_eth_to_address(binance_api_key, binance_secret_key, address, eth_amount, network)
         except Exception as e:
             msg = f"Ошибка при обработке адреса {address}. Причина: {str(e)}"
             print(msg)
