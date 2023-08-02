@@ -1,8 +1,5 @@
 import random
 import requests
-from urllib.parse import urlencode
-import hmac
-import hashlib
 import time
 import logging
 from dotenv import dotenv_values
@@ -25,19 +22,25 @@ def generate_random_eth_amount(min_amount, max_amount, round_digits):
 
 def withdraw_eth_to_address(api_key, secret_key, to_address, amount, network):
     endpoint = "https://api.binance.com/sapi/v1/capital/withdraw/apply"
+    timestamp = int(time.time() * 1000)
+
     params = {
         "coin": "ETH",
-        "withdrawOrderId": int(time.time() * 1000),
+        "withdrawOrderId": timestamp,
         "network": network,
         "address": to_address,
         "amount": amount,
-        "timestamp": int(time.time() * 1000)
+        "timestamp": timestamp
     }
+
+    headers = {
+        "X-MBX-APIKEY": api_key
+    }
+
     query_string = urlencode(params)
     signature = hmac.new(secret_key.encode('utf-8'), query_string.encode('utf-8'), hashlib.sha256).hexdigest()
     params["signature"] = signature
 
-    headers = {"X-MBX-APIKEY": api_key}
     response = requests.post(endpoint, params=params, headers=headers)
     response_data = response.json()
 
@@ -77,9 +80,9 @@ if __name__ == "__main__":
 
     network = input("Выберите сеть для отправки ETH (1 - ARBITRUM, 2 - OPTIMISM): ")
     if network == "1":
-        network = "ARBITRUM"
+        network = "arbitrum"
     elif network == "2":
-        network = "OPTIMISM"
+        network = "optimism"
     else:
         print("Некорректный выбор сети. Пожалуйста, выберите 1 или 2.")
         exit(1)
