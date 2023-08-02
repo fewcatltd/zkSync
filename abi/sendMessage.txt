@@ -1,0 +1,20 @@
+[
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "message",
+        "type": "string"
+      },
+      {
+        "name": "destChainId",
+        "type": "uint16"
+      }
+    ],
+    "name": "sendMessage",
+    "outputs": [],
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "function"
+  }
+]
