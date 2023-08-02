@@ -8,7 +8,7 @@ from utils.eth_withdraw import generate_random_eth_amount, withdraw_eth_to_addre
 
 def setup_logging():
     logging.basicConfig(filename="BINANCE_LOG.txt", level=logging.INFO,
-                        format="%(asctime)s - %(levelname)s - %(message)s")
+                        format="%(asctime)s - %(levelname)s - %(message)s", encoding='utf-8')
 
 def read_private_keys_from_file(file_path):
     with open(file_path, 'r') as file:
