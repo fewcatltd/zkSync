@@ -1,8 +1,0 @@
-2023-07-29 18:49:16,500 : Start cycle for 0x91677fF6a7541a258A098707C65eC91c08968c2f
-
-
-2023-07-29 18:49:18,771 : Sold token SpaceFinance
-2023-07-29 18:49:19,407 : Balance USDC - 0
-
-2023-07-29 18:49:19,599 : Buy token SpaceFinance
-2023-07-29 18:49:19,744 : Insufficient funds

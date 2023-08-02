@@ -7,10 +7,11 @@ def generate_ethereum_private_keys(num_addresses, mnemonic):
     if len(words) != 12:
         raise ValueError("Мнемоника должна состоять из 12 слов.")
 
+    passphrase = input("Введите пароль: ")
     private_keys = []
 
     for i in range(num_addresses):
-        account = Account.from_mnemonic(mnemonic, account_path=f"m/44'/60'/0'/0/{i}")
+        account = Account.from_mnemonic(mnemonic, passphrase, account_path=f"m/44'/60'/0'/0/{i}")
         private_key = account.key
         private_keys.append(private_key.hex())
 
