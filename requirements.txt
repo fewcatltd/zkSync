@@ -3,3 +3,4 @@ requests==2.31.0
 mimesis==10.1.0
 telebot==0.0.5
 python-dotenv
+python-binance
