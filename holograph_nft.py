@@ -21,7 +21,8 @@ def shuffle(wallets_list, shuffle_wallets):
     elif shuffle_wallets is False:
         numbered_wallets = list(enumerate(wallets_list, start=1))
     else:
-        raise ValueError("\n\nWrong type for shuffle_wallets. Expected Boolean")
+        raise ValueError(
+            "\n\nWrong type for shuffle_wallets. Expected Boolean")
     return numbered_wallets
 
 
@@ -31,7 +32,8 @@ class Worker(Thread):
 
     def chek_gas_eth(self, max_gas_, log):
         try:
-            eth_w3 = Web3(Web3.HTTPProvider(RPC_ETH, request_kwargs={'timeout': 600}))
+            eth_w3 = Web3(Web3.HTTPProvider(
+                RPC_ETH, request_kwargs={'timeout': 600}))
             while True:
                 res = int(round(Web3.from_wei(eth_w3.eth.gas_price, 'gwei')))
                 if res <= max_gas_:
@@ -46,10 +48,12 @@ class Worker(Thread):
     def run(self):
         log = logging.getLogger(threading.current_thread().name)
         console_out = logging.StreamHandler()
-        basic_format1 = logging.Formatter('%(asctime)s : [%(name)s] : %(message)s')
+        basic_format1 = logging.Formatter(
+            '%(asctime)s : [%(name)s] : %(message)s')
         basic_format = logging.Formatter('%(asctime)s : %(message)s')
         console_out.setFormatter(basic_format1)
-        file_handler = logging.FileHandler(f"HOLOGRAPH NFT {threading.current_thread().name}.txt", 'w', 'utf-8')
+        file_handler = logging.FileHandler(
+            f"HOLOGRAPH NFT {threading.current_thread().name}.txt", 'w', 'utf-8')
         file_handler.setFormatter(basic_format)
         log.setLevel(logging.DEBUG)
         log.addHandler(console_out)
@@ -59,8 +63,9 @@ class Worker(Thread):
             account = keys_list.pop(0)
             number = account[0]
             private_key = account[1][0]
-            rpc = RPC_OPTIMISM
-            retries = Retry(total=10, backoff_factor=1, status_forcelist=[400, 404, 500, 502, 503, 504])
+            rpc = RPC_ARBITRUM
+            retries = Retry(total=10, backoff_factor=1, status_forcelist=[
+                            400, 404, 500, 502, 503, 504])
             adapter = requests.adapters.HTTPAdapter(max_retries=retries)
             session = requests.Session()
             session.mount('http://', adapter)
@@ -76,7 +81,8 @@ class Worker(Thread):
             holograph = Holograph(private_key, web3, str_number, log)
             self.chek_gas_eth(max_gas, log)
             holograph.mint()
-            time.sleep(random.randint(delay_between_tx_min, delay_between_tx_max))
+            time.sleep(random.randint(
+                delay_between_tx_min, delay_between_tx_max))
             session.close()
 
 
