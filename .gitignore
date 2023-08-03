@@ -1,7 +1,8 @@
-# Игнорировать все файлы с расширением .txt
+# Игнорировать все файлы
 *.txt
-
-# За исключением файла requirements.txt
-!requirements.txt
 private_key.txt
 .vscode
+.env
+
+# За исключением
+!requirements.txt
