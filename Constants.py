@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv('./.env')
 
 def toBoolean(value):
     return value.lower() == 'true' or value.lower() == 'yes' or value.lower() == '1'
